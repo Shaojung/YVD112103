@@ -9,6 +9,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,18 +28,26 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Log.d("NET", response);
-                        try {
-                            JSONArray array = new JSONArray(response);
-                            for (int i=0;i<array.length();i++)
-                            {
-                                JSONObject obj = array.getJSONObject(i);
-                                String str = obj.getString("district");
-                                Log.d("NET", str);
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        Gson gson = new Gson();
+                        Animal loc[] = gson.fromJson(response, Animal[].class);
+                        for (Animal a : loc)
+                        {
+                            Log.d("NET", a.district);
                         }
+
+
+//                        try {
+//                            JSONArray array = new JSONArray(response);
+//                            for (int i=0;i<array.length();i++)
+//                            {
+//                                JSONObject obj = array.getJSONObject(i);
+//                                String str = obj.getString("district");
+//                                Log.d("NET", str);
+//                            }
+//
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
 
                     }
                 }, new Response.ErrorListener() {
